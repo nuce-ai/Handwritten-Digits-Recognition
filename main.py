@@ -32,3 +32,4 @@ print('result target to predict  : ',format(result)) # kết quả sau khi đã 
 print("nearest with : ",format(nearest)) # đối tượng gán nhãn gần với các tập dữ liệu nào nhất
 print("distance is :",format(distance)) # với khoảng cách gần nhất là bao nhiêu ?
 plt.show()
+print('commit code tutorial')
