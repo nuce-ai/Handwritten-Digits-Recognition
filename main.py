@@ -8,13 +8,14 @@ import plotly.graph_objects as go
 
 digits = load_digits() 
 
-# ARRAY TO IMAGE USING PIL
+# array to images using pillow
 def convertArrayToImageUsingPIL(source):
     imageNumber = Image.fromarray(source)
     imageNumber.show()
 
-# ARRAY TO IMAGE USING SCIKIT LEARN  + MATPLOTLIB 
+# array to images using matplotlib
 def convertArrayToImageUsingPLT(source):
+    plt.figure("processing...")
     plt.gray()
     plt.imshow(source)
     plt.show()
@@ -24,35 +25,36 @@ def flatMatrix(source):
     matrix = np.array(source.ravel())
     return matrix
 
-# khởi tạo bộ dữ liệu để training 
+# initialize training
 # training 
 
 imageTraining = np.array([(flatMatrix(x)) for x in digits.images[0:1790]]).astype(np.float32)
 labelTraining = np.array([flatMatrix(x)   for x in digits.target[0:1790]]).astype(np.float32)
 
-# index : nhập vị trí chữ số viết tay mà chúng ta cần dự đoán
+# index : Enter the handwritten digit position we need to predict
 
 index = 1796
 
-# khởi tạo ma trận chữ số viết tay cần dự đoán 
+# initialize matrix of handwritten words to be predicted
 # testing
 
 predictValue = np.array([flatMatrix(digits.images[index])]).astype(np.float32)
 
-# khởi tạo model
+# initialize model
 
 knn = cv2.ml.KNearest_create()
 knn.train(imageTraining,cv2.ml.ROW_SAMPLE,labelTraining)
 
 
 
-# in ra màn hình chữ số viết tay mà chúng ta cần dự đoán 
+# print out the screen of the handwritten digits we need to predict
 convertArrayToImageUsingPLT(digits.images[index])
 
-# liệt kê các trường hợp của k 
+# list the case of k
 k = [3,107,171,303,1009,1505,1707]
 listPredict = []
 listAccuracy = []
+print("+-------------------------------------------------+")
 print("|real value : ",digits.target[index])
 for i in k : 
 
@@ -65,8 +67,9 @@ for i in k :
 
     listNearest = [x for x in nearest[0]]
     findAccuracy = collections.Counter(listNearest)
-    # tính toán độ chính xác 
+    # accuracy calculation
     accuracy =  round((findAccuracy[result[0][0]]/sum(findAccuracy.values()))*100,2)
+    print("|nearest : ",collections.Counter(nearest[0]))
     print("|accuracy : ",accuracy,"%")
     print("+---------------------------------------------+")
     listPredict.append(result[0][0])
@@ -74,6 +77,7 @@ for i in k :
 
 database = {"k" : k,"predict" : listPredict,"accuracy" : listAccuracy} 
 
+# initialize table for case of k
 def tableResult(source):
     fig = go.Figure(
         data=[go.Table(header=dict(values=['k', 'Predict Value','Accuracy Value']),
