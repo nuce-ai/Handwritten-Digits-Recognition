@@ -28,24 +28,23 @@ def flatMatrix(source):
 
 # initialize training
 # training 
-
 imageTraining = np.array([(flatMatrix(x)) for x in digits.images[0:1790]]).astype(np.float32)
 labelTraining = np.array([flatMatrix(x)   for x in digits.target[0:1790]]).astype(np.float32)
 
 # index : Enter the handwritten digit position we need to predict
-
 index = 1796
+
+# Path of images 
+path = "database/test_3/9.png"
 
 # initialize matrix of handwritten words to be predicted
 # testing
-
-
 # predictValue = np.array([flatMatrix(digits.images[index])]).astype(np.float32)
 
 #number predict from database
-predictValue = np.array([flatMatrix(preprocessing.processing())]).astype(np.float32)
-# initialize model
+predictValue = np.array([flatMatrix(preprocessing.processing(path))]).astype(np.float32)
 
+# initialize model
 knn = cv2.ml.KNearest_create()
 knn.train(imageTraining,cv2.ml.ROW_SAMPLE,labelTraining)
 
@@ -56,7 +55,7 @@ knn.train(imageTraining,cv2.ml.ROW_SAMPLE,labelTraining)
 # convertArrayToImageUsingPLT(digits.images[index])
 
 # print out the sreen of the handwritten digits from database
-convertArrayToImageUsingPLT(preprocessing.processing())
+convertArrayToImageUsingPLT(preprocessing.processing(path))
 
 
 # list the case of k
