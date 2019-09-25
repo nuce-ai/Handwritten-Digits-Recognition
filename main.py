@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import cv2 
 import collections
 import plotly.graph_objects as go
+import preprocessing
 
 digits = load_digits() 
 
@@ -38,8 +39,11 @@ index = 1796
 # initialize matrix of handwritten words to be predicted
 # testing
 
-predictValue = np.array([flatMatrix(digits.images[index])]).astype(np.float32)
 
+# predictValue = np.array([flatMatrix(digits.images[index])]).astype(np.float32)
+
+#number predict from database
+predictValue = np.array([flatMatrix(preprocessing.processing())]).astype(np.float32)
 # initialize model
 
 knn = cv2.ml.KNearest_create()
@@ -48,7 +52,12 @@ knn.train(imageTraining,cv2.ml.ROW_SAMPLE,labelTraining)
 
 
 # print out the screen of the handwritten digits we need to predict
-convertArrayToImageUsingPLT(digits.images[index])
+
+# convertArrayToImageUsingPLT(digits.images[index])
+
+# print out the sreen of the handwritten digits from database
+convertArrayToImageUsingPLT(preprocessing.processing())
+
 
 # list the case of k
 k = [3,107,171,303,1009,1505,1707]
