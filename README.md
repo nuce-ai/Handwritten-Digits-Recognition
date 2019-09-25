@@ -5,4 +5,6 @@
   - OpenCV
   - Pillow
   - Scikit learn
+  - Numpy
+  - Plotly
 ### Author 
